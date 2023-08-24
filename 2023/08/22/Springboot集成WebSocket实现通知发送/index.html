@@ -1,0 +1,807 @@
+<!--
+	作者：Sariay
+	时间：2018-08-26
+	描述：There may be a bug, but don't worry, Qiling(器灵) says that it can work normally! aha!
+-->
+<!DOCTYPE html>
+<html class="html-loading">
+		
+
+<head>
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <title>
+    
+      Springboot集成WebSocket实现通知发送 | Ross Zhang 博客
+    
+  </title>
+  <meta name="author" content="Ross Zhang">
+  <meta name="keywords" content="热烈欢迎大家关注我的博客。在此深深感谢。 本人是一个软件开发工作者。从事后端java开发，和部分前端开发。目前掌握的技术有Java、Springboot等后端开发技术。vue、HTML、css、js等前端技术。 目前已经从事此行业6年之久。承接APP、微信小程序、网站开发等项目。也欢迎大家和我交流技术问题。" />
+  <meta name="description" content="Ross Zhang 的博客" />
+	<!-- favicon -->
+  <link rel="shortcut icon" href="/img/header.png">
+
+  <!-- css -->
+  
+<link rel="stylesheet" href="/css/Annie.css">
+
+
+  <!-- jquery -->
+	
+<script src="/plugin/jquery/jquery.min.js"></script>
+
+
+<script>
+    const CONFIG_BGIMAGE = {
+      mode: 'normal',
+      normalSrc: '/img/header-bg.jpg',
+      randomYouMax: 110,
+      randomYouSrc: 'https://sariay.github.io/Random-img/',
+	  randomOtherSrc: 'https://api.berryapi.net/?service=App.Bing.Images&day=-0',
+	  preloaderEnable: true
+    }
+
+    const CONFIG_LEACLOUD_COUNT = {
+      enable: false,
+	  appId: 'AU8...',
+	  appKey: '4cU...',
+	  serverURLs: 'http' || ' '
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		<!-- Preloader -->
+
+	<div id="preloader">
+		<div class="pre-container">
+			
+				<div class="spinner">
+					<div class="double-bounce1"></div>
+					<div class="double-bounce2"></div>
+				</div>
+						
+		</div>
+	</div>
+
+
+<!-- header -->
+<header class="fixbackground bg-pan-br">
+	<div class="mask">
+		<!-- motto -->
+		<div class="h-body">	
+			
+				<div class="motto text-shadow-pop-left">
+					<p class="content" id="motto-content">获取中...</p>
+					<p>-<p>
+					<p class="author" id="motto-author">Just a minute...</p>
+				</div>
+			
+		</div>
+		
+		<!-- others: such as time... -->			
+		<div class="h-footer">
+			<a href="javascript:;" id="read-more" class="scroll-down">
+				<span class="icon-anchor1 animation-scroll-down"></span>
+			</a>
+		</div>
+	</div>
+</header>
+
+<div id="navigation-hide">
+	<!-- Progress bar -->
+	<div id="progress-bar"></div>
+
+	<!-- Progress percent -->
+	<div id="progress-percentage"><span>0.0%</span></div>
+
+	<div class="toc-switch"><span class="switch-button">目录</span></div>
+
+	<!-- Page title -->
+	<p>
+		
+			「Springboot集成WebSocket实现通知发送」
+		
+	</p>
+
+	
+	
+
+	<!-- Nav trigger for navigation-H-->
+	<a class="nav-trigger"><span></span></a>
+</div>
+
+<!-- Navigation in div(id="navigation-H") -->
+<nav class="nav-container" id="cd-nav">
+	<div class="nav-header">
+		<span class="logo"> 
+			<img src="/img/logo.png">
+		</span>
+		<a href="javascript:;" class="nav-close"></a>
+	</div>
+	
+	<div class="nav-body">
+		<ul id="global-nav">
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home" target="_blank">主页</a>
+		</li>
+		
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive" target="_blank">归档</a>
+		</li>
+		
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories" target="_blank">分类</a>
+		</li>
+		
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags" target="_blank">标签</a>
+		</li>
+		
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about" target="_blank">关于</a>
+		</li>
+		
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery" target="_blank">相册</a>
+		</li>
+		
+	
+
+	
+		<li class="menu-search">
+			<a href="javascript:;" class="popup-trigger">搜索</a>
+		</li>
+	
+</ul>
+	</div>
+	
+	<div class="nav-footer">
+		<ul id="global-social">
+	
+		<li>
+			<a href="https://github.com/" target="_blank">
+				<span class="icon-github"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-pinterest2"></span>
+			</a>
+		</li>
+			
+</ul>
+
+	</div>
+</nav>
+			
+		<!--main-->
+		<main>
+			<!--
+	时间：2018-11-17
+	描述：
+		插件名称：katelog.min.js
+		插件作者：KELEN
+		插件来源: https://github.com/KELEN/katelog
+-->
+
+	
+		<div class="layout-toc">
+			<div id="layout-toc">
+				<div class="k-catelog-list" id="catelog-list" data-title="文章目录"></div>
+			</div>
+		</div>
+
+		
+<script src="/plugin/toc/katelog.min.js"></script>
+
+
+		
+	 
+
+<div class="layout-post">
+	<div id="layout-post">
+		<div class="article-title">
+			
+	<a href="/2023/08/22/Springboot%E9%9B%86%E6%88%90WebSocket%E5%AE%9E%E7%8E%B0%E9%80%9A%E7%9F%A5%E5%8F%91%E9%80%81/" itemprop="url">
+		Springboot集成WebSocket实现通知发送
+	</a>
+
+		</div>
+
+		<div class="article-meta">
+			<span>
+				<i class="icon-calendar1"></i>
+				
+				
+
+
+
+
+	更新于
+
+	<a href="/2023/08/22/Springboot%E9%9B%86%E6%88%90WebSocket%E5%AE%9E%E7%8E%B0%E9%80%9A%E7%9F%A5%E5%8F%91%E9%80%81/" itemprop="url">
+		<time datetime="2023-08-22T00:58:34.000Z" itemprop="dateUpdated">
+	  		2023-08-23
+	  </time>
+	</a> 
+
+
+
+			</span>
+			<span>
+				
+	<i class="icon-price-tags"></i>
+	
+		<a href="/tags/WebSocket/" class=" ">
+			WebSocket
+		</a>
+	
+		
+			</span>
+			
+			
+
+
+
+		</div>
+
+		<div class="article-content" id="article-content">
+			<p>结合RuoYi前后端，实现WebSocket发送系统通知功能。</p>
+<h1 id="java部分代码"><a href="#java部分代码" class="headerlink" title="java部分代码"></a>java部分代码</h1><h2 id="1、引入websocket的pom地址"><a href="#1、引入websocket的pom地址" class="headerlink" title="1、引入websocket的pom地址"></a>1、引入websocket的pom地址</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--websocket --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-websocket<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="2、配置全局配置"><a href="#2、配置全局配置" class="headerlink" title="2、配置全局配置"></a>2、配置全局配置</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.socket.config.annotation.EnableWebSocket;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.socket.server.standard.ServerEndpointExporter;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> rosszhang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebSocketConfig</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *   注入ServerEndpointExporter，</span></span><br><span class="line"><span class="comment">     *   这个bean会自动注册使用了<span class="doctag">@ServerEndpoint</span>注解声明的Websocket endpoint</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> ServerEndpointExporter <span class="title function_">serverEndpointExporter</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ServerEndpointExporter</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3、WebSocket服务"><a href="#3、WebSocket服务" class="headerlink" title="3、WebSocket服务"></a>3、WebSocket服务</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.websocket.OnClose;</span><br><span class="line"><span class="keyword">import</span> javax.websocket.OnMessage;</span><br><span class="line"><span class="keyword">import</span> javax.websocket.OnOpen;</span><br><span class="line"><span class="keyword">import</span> javax.websocket.Session;</span><br><span class="line"><span class="keyword">import</span> javax.websocket.server.PathParam;</span><br><span class="line"><span class="keyword">import</span> javax.websocket.server.ServerEndpoint;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.CopyOnWriteArraySet;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * webSocket消息推送</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> rosszhang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2023/8/4 16:20</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@ServerEndpoint(&quot;/webSocket/&#123;userId&#125;&quot;)</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebSocketServer</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Logger</span> <span class="variable">log</span> <span class="operator">=</span> LoggerFactory.getLogger(WebSocketServer.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Session session;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> CopyOnWriteArraySet&lt;WebSocketServer&gt; webSockets = <span class="keyword">new</span> <span class="title class_">CopyOnWriteArraySet</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Session&gt; sessionPool = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;String, Session&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnOpen</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onOpen</span><span class="params">(Session session, <span class="meta">@PathParam(value = &quot;userId&quot;)</span> String code)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.session = session;</span><br><span class="line">        webSockets.add(<span class="built_in">this</span>);</span><br><span class="line">        sessionPool.put(code, session);</span><br><span class="line">        <span class="comment">// Constants.WEBSOCKET = true;//定义常量  是否开启websocket连接</span></span><br><span class="line">        <span class="comment">// log.info(&quot;【websocket消息】有新的连接，总数为:&#123;&#125;&quot;, webSockets.size());</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnClose</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClose</span><span class="params">()</span> &#123;</span><br><span class="line">        webSockets.remove(<span class="built_in">this</span>);</span><br><span class="line">        <span class="comment">//Constants.WEBSOCKET = false;</span></span><br><span class="line">        <span class="comment">// log.info(&quot;【websocket消息】连接断开，总数为:&#123;&#125;&quot;, webSockets.size());</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnMessage</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onMessage</span><span class="params">(String message)</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;【websocket消息】收到客户端消息:&#123;&#125;&quot;</span>, message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此为广播消息</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendAllMessage</span><span class="params">(String message)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (WebSocketServer webSocket : webSockets) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;【websocket消息】广播消息:&#123;&#125;&quot;</span>, message);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                webSocket.session.getAsyncRemote().sendText(message);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此为单点消息</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendOneMessage</span><span class="params">(String code, String message)</span> &#123;</span><br><span class="line">        <span class="type">Session</span> <span class="variable">session</span> <span class="operator">=</span> sessionPool.get(code);</span><br><span class="line">        System.out.println(code);</span><br><span class="line">        <span class="comment">/*在发送数据之前先确认 session是否已经打开 使用session.isOpen() 为true 则发送消息</span></span><br><span class="line"><span class="comment">         * 不然会报错:The WebSocket session [0] has been closed and no method (apart from close()) may be called on a closed session */</span></span><br><span class="line">        <span class="keyword">if</span> (session != <span class="literal">null</span> &amp;&amp; session.isOpen()) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                session.getAsyncRemote().sendText(message);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4、改造RuoYi的系统通知Controller"><a href="#4、改造RuoYi的系统通知Controller" class="headerlink" title="4、改造RuoYi的系统通知Controller"></a>4、改造RuoYi的系统通知Controller</h2><p>此处我只保留了新增方法。其他的都去掉了。便于展示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson2.JSONObject;</span><br><span class="line"><span class="keyword">import</span> com.project.cost.common.annotation.Log;</span><br><span class="line"><span class="keyword">import</span> com.project.cost.common.constant.WebsocketConst;</span><br><span class="line"><span class="keyword">import</span> com.project.cost.common.core.controller.BaseController;</span><br><span class="line"><span class="keyword">import</span> com.project.cost.common.core.domain.AjaxResult;</span><br><span class="line"><span class="keyword">import</span> com.project.cost.common.core.page.TableDataInfo;</span><br><span class="line"><span class="keyword">import</span> com.project.cost.common.enums.BusinessType;</span><br><span class="line"><span class="keyword">import</span> com.project.cost.websocket.WebSocketServer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.access.prepost.PreAuthorize;</span><br><span class="line"><span class="keyword">import</span> org.springframework.validation.annotation.Validated;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.DeleteMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PostMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PutMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestBody;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"><span class="keyword">import</span> com.project.cost.system.domain.SysNotice;</span><br><span class="line"><span class="keyword">import</span> com.project.cost.system.service.ISysNoticeService;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 公告 信息操作处理</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ruoyi</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/system/notice&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SysNoticeController</span> <span class="keyword">extends</span> <span class="title class_">BaseController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ISysNoticeService noticeService;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> WebSocketServer webSocketServer;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新增通知公告</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PreAuthorize(&quot;@ss.hasPermi(&#x27;system:notice:add&#x27;)&quot;)</span></span><br><span class="line">    <span class="meta">@Log(title = &quot;通知公告&quot;, businessType = BusinessType.INSERT)</span></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> AjaxResult <span class="title function_">add</span><span class="params">(<span class="meta">@Validated</span> <span class="meta">@RequestBody</span> SysNotice notice)</span> &#123;</span><br><span class="line">        notice.setCreateBy(getUsername());</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> noticeService.insertNotice(notice);</span><br><span class="line">        <span class="comment">// webSocket服务发送消息</span></span><br><span class="line">        <span class="type">JSONObject</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>();</span><br><span class="line">        obj.put(WebsocketConst.MSG_ID, notice.getNoticeId());</span><br><span class="line">        obj.put(WebsocketConst.MSG_TXT, notice.getNoticeTitle());</span><br><span class="line">        <span class="built_in">this</span>.webSocketServer.sendAllMessage(obj.toString());</span><br><span class="line">        <span class="keyword">return</span> toAjax(count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="前端Vue代码"><a href="#前端Vue代码" class="headerlink" title="前端Vue代码"></a>前端Vue代码</h1><h2 id="新增消息图标"><a href="#新增消息图标" class="headerlink" title="新增消息图标"></a>新增消息图标</h2><p>首先在这个地方我新增了一个小组件,具体实现的功能样式如下：<br><img src="/img/ross/20230822092104.png" alt="消息图标"><br>以下是具体的Vue代码。我这边做了一个小组件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;!--（1通知 2公告）--&gt;</span><br><span class="line">  &lt;el-dropdown&gt;</span><br><span class="line">      &lt;span class=&quot;el-dropdown-link&quot;&gt;</span><br><span class="line">        &lt;svg-icon icon-class=&quot;message&quot; slot=&quot;reference&quot; /&gt;</span><br><span class="line">        &lt;el-badge :value=&quot;noteTotal&quot;&gt;&lt;/el-badge&gt;</span><br><span class="line">      &lt;/span&gt;</span><br><span class="line"></span><br><span class="line">    &lt;el-dropdown-menu slot=&quot;dropdown&quot;&gt;</span><br><span class="line">      &lt;el-tabs v-model=&quot;activeName&quot; @tab-click=&quot;handleClick&quot;&gt;</span><br><span class="line">        &lt;el-tab-pane label=&quot;系统通知&quot; name=&quot;first&quot;&gt;</span><br><span class="line">          &lt;div v-for=&quot;(item,index) in noticeData&quot; :key=&quot;index&quot;&gt;</span><br><span class="line">            &lt;a class=&quot;text-overflow&quot; @click=&quot;clickNote(item)&quot;&gt;&#123;&#123;item.noticeTitle&#125;&#125;&lt;/a&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;el-link v-if=&quot;sysLog.length&gt;4&quot; type=&quot;primary&quot;&gt;更多消息&lt;/el-link&gt;</span><br><span class="line">        &lt;/el-tab-pane&gt;</span><br><span class="line">        &lt;el-tab-pane label=&quot;系统公告&quot; name=&quot;second&quot;&gt;</span><br><span class="line">          &lt;div v-for=&quot;(item,index) in sysLog&quot; :key=&quot;index&quot;&gt;</span><br><span class="line">            &lt;a class=&quot;text-overflow&quot; @click=&quot;clickNote(item)&quot;&gt;&#123;&#123;item.noticeTitle&#125;&#125;&lt;/a&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;el-link v-if=&quot;sysLog.length&gt;4&quot; type=&quot;primary&quot;&gt;更多消息&lt;/el-link&gt;</span><br><span class="line">        &lt;/el-tab-pane&gt;</span><br><span class="line">      &lt;/el-tabs&gt;</span><br><span class="line">    &lt;/el-dropdown-menu&gt;</span><br><span class="line">    &lt;mode-dialog :visible=&quot;noteVisible&quot; :noteType=&quot;noteType&quot; :noticeId=&quot;noticeId&quot; @close=&quot;closeMode&quot;&gt;&lt;/mode-dialog&gt;</span><br><span class="line">  &lt;/el-dropdown&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import &#123; listNotice &#125; from &#x27;@/api/system/notice&#x27;</span><br><span class="line">  import ModeDialog from &#x27;@/components/ModeDialog&#x27;</span><br><span class="line"></span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &#x27;Cost&#x27;,</span><br><span class="line">    components: &#123; ModeDialog &#125;,</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        activeName: &#x27;first&#x27;,</span><br><span class="line">        // 查询参数</span><br><span class="line">        queryParams: &#123;</span><br><span class="line">          pageNum: 1,</span><br><span class="line">          pageSize: 5,</span><br><span class="line">          readFlag: &#x27;0&#x27;</span><br><span class="line">        &#125;,</span><br><span class="line">        noteTotal: &#x27;&#x27;,</span><br><span class="line">        // 公告</span><br><span class="line">        sysLog: [],</span><br><span class="line">        // 通知</span><br><span class="line">        noticeData: [],</span><br><span class="line">        websock: null,</span><br><span class="line">        lockReconnect: false,</span><br><span class="line">        heartCheck: null,</span><br><span class="line">        noteVisible: false,</span><br><span class="line">        noteType: 0,</span><br><span class="line">        noticeId: 0</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">      this.getList()</span><br><span class="line">      // 初始化WebSocket</span><br><span class="line">      this.initWebSocket()</span><br><span class="line">    &#125;,</span><br><span class="line">    destroyed: function() &#123; // 离开页面生命周期函数</span><br><span class="line">      this.websocketOnclose()</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      getList() &#123;</span><br><span class="line">        this.noticeData = []</span><br><span class="line">        this.sysLog = []</span><br><span class="line">        listNotice(this.queryParams).then(res =&gt; &#123;</span><br><span class="line">          if (res.code === 200) &#123;</span><br><span class="line">            this.noteTotal = res.total === 0 ? &#x27;&#x27; : res.total</span><br><span class="line">            res.rows.forEach(item =&gt; &#123;</span><br><span class="line">              if (item.noticeType == &#x27;1&#x27;) &#123;</span><br><span class="line">                this.noticeData.push(item)</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                this.sysLog.push(item)</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">      handleClick(tab, event) &#123;</span><br><span class="line">      &#125;,</span><br><span class="line">      clickNote(data) &#123;</span><br><span class="line">        this.noteVisible = true</span><br><span class="line">        this.noticeId = data.noticeId</span><br><span class="line">        this.noteType = data.noticeType == &#x27;1&#x27; ? 0 : 1</span><br><span class="line">      &#125;,</span><br><span class="line">      closeMode() &#123;</span><br><span class="line">        this.getList()</span><br><span class="line">        this.noteVisible = false</span><br><span class="line">      &#125;,</span><br><span class="line">      initWebSocket() &#123;</span><br><span class="line">        var userId = this.$store.getters.userId</span><br><span class="line">        // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https</span><br><span class="line">        // VUE_APP_BASE_API_WS = &#x27;ws://localhost:9696&#x27; 地址</span><br><span class="line">        var url = process.env.VUE_APP_BASE_API_WS + &#x27;/webSocket/&#x27; + userId</span><br><span class="line">        this.websock = new WebSocket(url)</span><br><span class="line">        this.websock.onopen = this.websocketOnopen</span><br><span class="line">        this.websock.onerror = this.websocketOnerror</span><br><span class="line">        this.websock.onmessage = this.websocketOnmessage</span><br><span class="line">        this.websock.onclose = this.websocketOnclose</span><br><span class="line">      &#125;,</span><br><span class="line">      websocketOnopen: function() &#123;</span><br><span class="line">        console.log(&#x27;WebSocket连接成功&#x27;)</span><br><span class="line">      &#125;,</span><br><span class="line">      websocketOnerror: function(e) &#123;</span><br><span class="line">        console.log(&#x27;WebSocket连接发生错误，第%s次&#x27;, this.wsConnectErrorTime)</span><br><span class="line">        this.wsConnectErrorTime = this.wsConnectErrorTime + 1</span><br><span class="line">        if (this.wsConnectErrorTime &gt; 5) &#123;</span><br><span class="line">          console.log(&#x27;WebSocket连接错误超过5次，就不再重新连了！&#x27;)</span><br><span class="line">          this.lockReconnect = true</span><br><span class="line">          return</span><br><span class="line">        &#125;</span><br><span class="line">        this.reconnect()</span><br><span class="line">      &#125;,</span><br><span class="line">      websocketOnmessage: function(e) &#123;</span><br><span class="line">        console.log(&#x27;-----接收消息-------&#x27;, e.data)</span><br><span class="line">        this.getList()</span><br><span class="line">      &#125;,</span><br><span class="line">      websocketOnclose: function(e) &#123;</span><br><span class="line">        console.log(&#x27;connection closed (&#x27; + e + &#x27;)&#x27;)</span><br><span class="line">        if (e) &#123;</span><br><span class="line">          console.log(&#x27;connection closed (&#x27; + e.code + &#x27;)&#x27;)</span><br><span class="line">        &#125;</span><br><span class="line">        this.reconnect()</span><br><span class="line">      &#125;,</span><br><span class="line">      reconnect() &#123;</span><br><span class="line">        var that = this</span><br><span class="line">        if (that.lockReconnect) return</span><br><span class="line">        that.lockReconnect = true</span><br><span class="line">        //没连接上会一直重连，设置延迟避免请求过多</span><br><span class="line">        setTimeout(function() &#123;</span><br><span class="line">          console.info(&#x27;尝试重连...&#x27;)</span><br><span class="line">          that.initWebSocket()</span><br><span class="line">          that.lockReconnect = false</span><br><span class="line">        &#125;, 2000)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">  .text-overflow &#123;</span><br><span class="line">    width: 160px;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">    white-space: nowrap;</span><br><span class="line">    text-overflow: ellipsis;</span><br><span class="line">    margin: 2px 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ::v-deep .el-badge &#123;</span><br><span class="line">    top: -7px;</span><br><span class="line">    right: -4px;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ::v-deep .el-badge__content.is-dot &#123;</span><br><span class="line">    position: relative;</span><br><span class="line">    width: 11px;</span><br><span class="line">    height: 11px;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ::v-deep .el-dropdown-menu &#123;</span><br><span class="line">    top: 28px;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ::v-deep .el-tabs &#123;</span><br><span class="line">    padding: 12px;</span><br><span class="line">    width: 188px;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>此处也可以使用WebSocket的其他插件链接。我这里是原生的链接方式，看着有点丑。之后貌似可以测试了。测试是否链接成功，我们可以打开F12来看一下结果<br><img src="/img/ross/20230822092448.png" alt="测试成功结果"></p>
+<h2 id="头部添加消息组件"><a href="#头部添加消息组件" class="headerlink" title="头部添加消息组件"></a>头部添加消息组件</h2><p>找到项目路径，这个Navbar.vue就是头部的组件部分<br><img src="/img/ross/1692667573480.jpg" alt="项目路径"><br>此处隐藏多余的代码。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">....</span><br><span class="line"> &lt;<span class="selector-tag">div</span> class=&quot;<span class="attribute">right</span>-<span class="selector-tag">menu</span>&quot;&gt;</span><br><span class="line">      &lt;template v-if=&quot;device!==&#x27;mobile&#x27;&quot;&gt;</span><br><span class="line">        &lt;search id=&quot;<span class="selector-tag">header</span>-search&quot; class=&quot;<span class="attribute">right</span>-<span class="selector-tag">menu</span>-item&quot; /&gt;</span><br><span class="line">        </span><br><span class="line">		&lt;!--添加我们的消息组件--&gt;</span><br><span class="line">        &lt;cost class=&quot;<span class="attribute">right</span>-<span class="selector-tag">menu</span>-item hover-effect&quot;&gt;&lt;/cost&gt;</span><br><span class="line"></span><br><span class="line">        &lt;screenfull id=&quot;screenfull&quot; class=&quot;<span class="attribute">right</span>-<span class="selector-tag">menu</span>-item hover-effect&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;el-tooltip <span class="attribute">content</span>=&quot;布局大小&quot; effect=&quot;dark&quot; placement=&quot;<span class="attribute">bottom</span>&quot;&gt;</span><br><span class="line">          &lt;size-select id=&quot;size-select&quot; class=&quot;<span class="attribute">right</span>-<span class="selector-tag">menu</span>-item hover-effect&quot; /&gt;</span><br><span class="line">        &lt;/el-tooltip&gt;</span><br><span class="line"></span><br><span class="line">      &lt;/template&gt;</span><br><span class="line">  &lt;/<span class="selector-tag">div</span>&gt;</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>使用，测试说明：<br><img src="/img/ross/082201.png" alt="使用测试说明"><br>欢迎大家关注我的公众号<br><img src="/img/ross/ross1.jpg" alt="张俊发"><br>测试账号和密码都可以在公众号中获取。<br><a target="_blank" rel="noopener" href="http://116.204.123.248:9090/">测试链接：</a></p>
+	
+		</div>
+		
+		<div id="current-post-cover" data-scr="/img/ross/666661.jpg"></div>
+
+		<!-- relate post, comment...-->
+		<div class="investment-container">
+			<div class="investment-header">
+				<div class="investment-title-1">
+					<div class="on">相关文章</div>
+					<div>评论</div>
+					<div>分享</div>
+				</div>
+				<div class="investment-title-2">	            
+					
+	<span>
+		<a id="totop-post-page">返回顶部</a>
+		
+			<a href="/2023/08/23/Springboot%E9%9B%86%E6%88%90Minio%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="Springboot集成Minio实现文件管理" rel="prev">
+				&laquo;上一篇
+			</a>
+		
+		
+			<a href="/2023/08/21/Test-Annie/" title="Test Annie" rel="next">
+				下一篇&raquo;
+			</a>
+			
+	</span>
+
+
+      		
+				</div>	
+			</div>
+			
+			<div class="investment-content">
+				<div class="investment-content-list">
+					
+
+<div class="relate-post">
+	
+		<ul>
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/23/Springboot%E9%9B%86%E6%88%90Minio%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="Springboot集成Minio实现文件管理">
+								Springboot集成Minio实现文件管理			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 23日, 2023				
+							</p>
+							<p class="relate-post-content">
+								这里我默认已经有服务器，并且安装了Minio的文件服务器。后续我在写一个安装Minio的文章。这里我用的是Ruoyi的前后端Vue项目，有些方法不在的可以在Ruoyi的项目中找。Ruoyi
+先引入Minio的Pom路径12345678...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/23/Springboot%E9%9B%86%E6%88%90Minio%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="Springboot集成Minio实现文件管理">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/20230823/1692773834970.jpg" alt="Springboot集成Minio实现文件管理"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/24/%E4%BD%BF%E7%94%A8GitHub-hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/" title="使用GitHub+hexo搭建自己的博客">
+								使用GitHub+hexo搭建自己的博客			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 24日, 2023				
+							</p>
+							<p class="relate-post-content">
+								此处默认您已经对GitHub，Node，Git有一定的基础。
+先在GitHub上建立一个RossZhangJF.github.io的仓库注意：此处的RossZhangJF.github.io名字要和GitHub的用户名一模一样不然，会...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/24/%E4%BD%BF%E7%94%A8GitHub-hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/" title="使用GitHub+hexo搭建自己的博客">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/ross/1692844799104.jpg" alt="使用GitHub+hexo搭建自己的博客"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/21/Test-Annie/" title="Test Annie">
+								Test Annie			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 21日, 2023				
+							</p>
+							<p class="relate-post-content">
+								Annie主题使用说明官方文档
+
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/21/Test-Annie/" title="Test Annie">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/cart_cover.jpg" alt="Test Annie"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/21/Ross%20Zhang%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" title="Ross Zhang自我介绍">
+								Ross Zhang自我介绍			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 21日, 2023				
+							</p>
+							<p class="relate-post-content">
+								自我介绍 热烈欢迎大家关注我的博客。在此深深感谢。 本人是一个软件开发工作者。从事后端java开发，和部分前端开发。目前掌握的技术有Java、Springboot等后端开发技术。vue、HTML、css、js等前端技术。 目前已经从事...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/21/Ross%20Zhang%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" title="Ross Zhang自我介绍">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/ross/ross1.jpg" alt="Ross Zhang自我介绍"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/20/Hexo%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/" title="Hexo建立博客项目的基本步骤">
+								Hexo建立博客项目的基本步骤			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 20日, 2023				
+							</p>
+							<p class="relate-post-content">
+								快速入门创建一个新的帖子1$ hexo new &quot;我的文章&quot;
+
+更多信息: Writing
+运行服务1$ hexo server
+
+更多信息: Server
+生成静态文件1$ hexo generate
+
+更多信息...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/20/Hexo%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/" title="Hexo建立博客项目的基本步骤">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/cart_cover.jpg" alt="Hexo建立博客项目的基本步骤"/>
+							</a>
+						</div>
+					</li>												
+			
+		</ul>
+	
+</div>	
+				</div>
+				<div class="investment-content-list">
+					<div class="layout-comment">
+
+	
+		<div class="config-info">
+			Please check the parameter of <b>comment</b> in config.yml of hexo-theme-Annie!
+		</div>	
+	
+
+</div>
+				</div>
+				<div class="investment-content-list">
+					<div class="layout-share">
+	
+	
+
+		
+			
+			<!-- socialShare share -->
+			<div class="social-share"></div>
+
+<!--  css & js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+			
+		
+		
+	
+</div>
+
+
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+
+<!-- show math formula -->
+
+
+
+	 
+	
+<script src="/plugin/clipboard/clipboard.js"></script>
+
+	<script>
+		// Copy code !
+	    function preprocessing() {
+	        $("#article-content .highlight").each(function() {
+	            $(this).wrap('<div id="post-code"></div>');
+	        })
+
+	        $("#article-content #post-code").each(function() {
+	            $(this).prepend('<nav class="copy-nav"><span><i class="code-language"></i></span></nav>');
+	        })
+
+	        $("#article-content .copy-nav").each(function() {
+	            let languageClass = $(this).next().attr('class'),
+	                language = ((languageClass.length > 9) && (languageClass != null)) ? languageClass.substr(10) : "none"; //why 9? Need to check language?
+
+	            $(this).find('.code-language').text(language);
+	            $(this).append('<span class="copy-btn icon-paste"></span>');
+	        });
+	    }
+
+		function copy() {
+		    $('#article-content #post-code').each(function(i) {
+		        let codeCopyId = 'codeCopy-' + i;
+
+		        let codeNode = $(this).find('.code'),
+		            copyButton = $(this).find('.copy-btn');
+
+		        codeNode.attr('id', codeCopyId);
+		        copyButton.attr('data-clipboard-target-id', codeCopyId);
+		    })
+   
+			let clipboard = new ClipboardJS('.copy-btn', {
+					target: function(trigger) {
+						return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+					}
+		      	});
+
+			//pure js
+			function showTooltip(elem, msg) {		   
+				elem.setAttribute('aria-label', msg);
+				elem.setAttribute('class', 'copy-btn icon-clipboard1');
+				setTimeout(function() {
+					elem.setAttribute('class', 'copy-btn icon-paste');
+				}, 2000);
+			}
+
+			clipboard.on('success', function(e) {
+			    e.clearSelection();
+			    console.info('Action:', e.action);		   
+			    console.info('Trigger:', e.trigger);
+			    showTooltip(e.trigger, 'Copied!');   
+			});
+			
+			clipboard.on('error', function(e) {
+			    console.error('Action:', e.action);
+			    console.error('Trigger:', e.trigger);
+			});
+		}
+		
+		(function copyCode(){
+			if ($('.layout-post').length) {
+			    preprocessing();
+			    copy();
+			} 
+		})();
+	</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+
+
+<script src="/plugin/fancybox/jquery.fancybox.js"></script>
+
+
+<script type="text/javascript">
+	(function gallerySet(){
+		let titleID = $('.article-title a'),
+			imageID = $('.article-content img'),
+			videoID = $('.article-content video');
+		
+		let postTitle = titleID.text() ? titleID.text() : "No post title!";
+		
+		imageID.each(function() {
+			let imgPath = $(this).attr('src'),
+				imgTitle = $(this).attr('alt') ? $(this).attr('alt') : "No image description!";
+		
+			//给每个匹配的<img>元素打包, 即添加父元素<a>
+			$(this).wrap('<a data-fancybox="gallery" data-caption="《 ' + postTitle + ' 》' + imgTitle + '"href="' + imgPath + '"> </a>');
+		});
+		
+		videoID.each(function() {
+			let videoPath = $(this).attr('src');
+		
+			//给每个匹配的<img>元素打包, 即添加父元素<a>
+			$(this).wrap('<a data-fancybox href=" ' + videoPath + ' "> </a>');
+		});
+		
+		//TODO：支持html5 video
+
+		if($('#layout-post').length) {
+			$('[data-fancybox="gallery"]').fancybox({
+				loop: true,
+				buttons: [
+					"zoom",
+					"share",
+					"slideShow",
+					"fullScreen",
+					//"download",
+					"thumbs",
+					"close"
+				],
+				protect: true
+			});
+		}
+	})();
+</script>
+		</main>
+
+		<!--footer-->
+		<footer>
+	<div id="navigation-show">
+		<ul id="global-nav">
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home" target="_blank">主页</a>
+		</li>
+		
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive" target="_blank">归档</a>
+		</li>
+		
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories" target="_blank">分类</a>
+		</li>
+		
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags" target="_blank">标签</a>
+		</li>
+		
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about" target="_blank">关于</a>
+		</li>
+		
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery" target="_blank">相册</a>
+		</li>
+		
+	
+
+	
+		<li class="menu-search">
+			<a href="javascript:;" class="popup-trigger">搜索</a>
+		</li>
+	
+</ul>
+	</div>
+
+	<div class="copyright">
+		<p>
+			 
+				&copy;2023, content by Ross Zhang. All Rights Reserved.
+			
+			
+				<a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> Theme <a href="https://github.com/Sariay/hexo-theme-Annie" title="Annie" target="_blank" rel="noopener">Annie</a> by Sariay.
+			
+		</p>
+		<p>
+			
+
+	<!-- busuanzi -->
+	<!-- busuanzi -->
+
+
+
+			<a href="javascript:zh_tran('s');" class="zh_click" id="zh_click_s">简体</a> 
+			<a href="javascript:zh_tran('t');" class="zh_click" id="zh_click_t">繁體</a>				
+		</p>
+	</div>		
+</footer>
+		
+	<!-- Local or hitokoto! -->
+
+	
+<script src="/plugin/motto/motto.js"></script>
+
+	
+	<script type="text/javascript">
+		(function motto(){
+			let mottoText = getMingYanContent().split('</br> - </br>'),
+			
+			mottoTextContent = mottoText[0]?mottoText[0]:'请刷新...',
+			
+			mottoTextFrom = mottoText[1]?mottoText[1]:'one/一个';
+			
+			mottoTextContent = mottoTextContent.trim().substring(0, 100);
+		
+			$("#motto-content").html( mottoTextContent);
+			$("#motto-author").html( mottoTextFrom  );
+		})();	
+	</script>	
+
+
+
+<!-- love effect -->
+
+	
+<script src="/plugin/love/love.js"></script>
+
+
+
+<!-- back to top -->
+
+	<div id="totop">
+	<span class="icon-circle-up"></span>
+</div>
+
+
+
+<!-- site analysis -->
+
+
+	<!-- site-analysis -->
+	
+	
+	
+	
+	
+ 
+
+<!-- leancloud -->
+
+
+	<!-- leancloud -->
+	<!--
+	时间：2018-11-27
+	描述：
+		文章访问量：visitors
+		文章喜欢量：likes	
+		文章排行榜：topNPost
+		其他得说明：
+			01-Cookie相关的函数 
+				https://blog.csdn.net/somehow1002/article/details/78511541（Author：somehow1002）
+			02-visitors相关的函数 
+				https://blog.csdn.net/u013553529/article/details/63357382（Author：爱博客大伯）
+				https://notes.doublemine.me/2015-10-21-为NexT主题添加文章阅读量统计功能.html（Author：夏末）
+			03-topNPost相关的函数
+				https://hoxis.github.io/hexo-next-read-rank.html（Author：hoxis）
+			04-likes相关的函数，
+				参考了01 & 02进行简单的设计与实现
+-->
+
+
+	
+
+  
+
+	<!--
+	时间：2018-10-3
+	描述：
+		插件名称：hexo-generator-search-zip
+		插件来源: https://github.com/SuperKieran/hexo-generator-search-zip
+		代码参考：https://github.com/SuperKieran/TKL/blob/master/layout/_partial/search.ejs(Include: js & css)	
+-->
+<div class="popup search-popup local-search-popup scrollbar" >
+	<div class="local-search-container">
+		<span class="popup-btn-close">
+      		ESC
+   		</span>
+		<div class="local-search-header">
+			<div class="input-prompt">				
+			</div>
+			<input autocomplete="off" placeholder="Search..." type="text" id="local-search-input">
+		</div>
+		<div class="local-search-body">
+			<div id="local-search-output"></div>
+		</div>
+		<div class="local-search-footer">
+			<div class="topN-post">				
+				
+								
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="/plugin/search/ziploader.js"></script>
+<script src="/js/search.js"></script>
+
+
+<script type="text/javascript">
+	var search_path = 'search.json',
+		zip_Path = '/search.zip',
+		version_Path = '/searchVersion.txt',
+		input_Trigger = 'auto',
+		top_N = '2';
+
+	themeLocalSearch({
+		search_path, 
+		zip_Path, 
+		version_Path, 
+		input_Trigger, 
+		top_N
+	});
+</script>
+
+
+
+<script src="/plugin/chinese/chinese.js"></script>
+<script src="/plugin/imagelazyloader/yall.min.js"></script>
+<script src="/plugin/imageloaded/imagesloaded.pkgd.min.js"></script>
+<script src="/plugin/nicescroll/jquery.nicescroll.js"></script>
+<script src="/plugin/resizediv/resizediv.js"></script>
+<script src="/js/main.js"></script>
+
+	</body>	
+</html>
