@@ -1,0 +1,859 @@
+<!--
+	作者：Sariay
+	时间：2018-08-26
+	描述：There may be a bug, but don't worry, Qiling(器灵) says that it can work normally! aha!
+-->
+<!DOCTYPE html>
+<html class="html-loading">
+		
+
+<head>
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <title>
+    
+      Java设计模式-代理模式 | Ross Zhang 博客
+    
+  </title>
+  <meta name="author" content="Ross Zhang">
+  <meta name="keywords" content="热烈欢迎大家关注我的博客。在此深深感谢。 本人是一个软件开发工作者。从事后端java开发，和部分前端开发。目前掌握的技术有Java、Springboot等后端开发技术。vue、HTML、css、js等前端技术。 目前已经从事此行业6年之久。承接APP、微信小程序、网站开发等项目。也欢迎大家和我交流技术问题。" />
+  <meta name="description" content="Ross Zhang 的博客" />
+	<!-- favicon -->
+  <link rel="shortcut icon" href="/img/header.png">
+
+  <!-- css -->
+  
+<link rel="stylesheet" href="/css/Annie.css">
+
+
+  <!-- jquery -->
+	
+<script src="/plugin/jquery/jquery.min.js"></script>
+
+
+<script>
+    const CONFIG_BGIMAGE = {
+      mode: 'normal',
+      normalSrc: '/img/header-bg.jpg',
+      randomYouMax: 110,
+      randomYouSrc: 'https://sariay.github.io/Random-img/',
+	  randomOtherSrc: 'https://api.berryapi.net/?service=App.Bing.Images&day=-0',
+	  preloaderEnable: true
+    }
+
+    const CONFIG_LEACLOUD_COUNT = {
+      enable: false,
+	  appId: 'AU8...',
+	  appKey: '4cU...',
+	  serverURLs: 'http' || ' '
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		<!-- Preloader -->
+
+	<div id="preloader">
+		<div class="pre-container">
+			
+				<div class="spinner">
+					<div class="double-bounce1"></div>
+					<div class="double-bounce2"></div>
+				</div>
+						
+		</div>
+	</div>
+
+
+<!-- header -->
+<header class="fixbackground bg-pan-br">
+	<div class="mask">
+		<!-- motto -->
+		<div class="h-body">	
+			
+				<div class="motto text-shadow-pop-left">
+					<p class="content" id="motto-content">获取中...</p>
+					<p>-<p>
+					<p class="author" id="motto-author">Just a minute...</p>
+				</div>
+			
+		</div>
+		
+		<!-- others: such as time... -->			
+		<div class="h-footer">
+			<a href="javascript:;" id="read-more" class="scroll-down">
+				<span class="icon-anchor1 animation-scroll-down"></span>
+			</a>
+		</div>
+	</div>
+</header>
+
+<div id="navigation-hide">
+	<!-- Progress bar -->
+	<div id="progress-bar"></div>
+
+	<!-- Progress percent -->
+	<div id="progress-percentage"><span>0.0%</span></div>
+
+	<div class="toc-switch"><span class="switch-button">目录</span></div>
+
+	<!-- Page title -->
+	<p>
+		
+			「Java设计模式-代理模式」
+		
+	</p>
+
+	
+	
+
+	<!-- Nav trigger for navigation-H-->
+	<a class="nav-trigger"><span></span></a>
+</div>
+
+<!-- Navigation in div(id="navigation-H") -->
+<nav class="nav-container" id="cd-nav">
+	<div class="nav-header">
+		<span class="logo"> 
+			<img src="/img/logo.png">
+		</span>
+		<a href="javascript:;" class="nav-close"></a>
+	</div>
+	
+	<div class="nav-body">
+		<ul id="global-nav">
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home" target="_blank">主页</a>
+		</li>
+		
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive" target="_blank">归档</a>
+		</li>
+		
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories" target="_blank">分类</a>
+		</li>
+		
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags" target="_blank">标签</a>
+		</li>
+		
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about" target="_blank">关于</a>
+		</li>
+		
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery" target="_blank">相册</a>
+		</li>
+		
+	
+
+	
+		<li class="menu-search">
+			<a href="javascript:;" class="popup-trigger">搜索</a>
+		</li>
+	
+</ul>
+	</div>
+	
+	<div class="nav-footer">
+		<ul id="global-social">
+	
+		<li>
+			<a href="https://github.com/" target="_blank">
+				<span class="icon-github"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-pinterest2"></span>
+			</a>
+		</li>
+			
+</ul>
+
+	</div>
+</nav>
+			
+		<!--main-->
+		<main>
+			<!--
+	时间：2018-11-17
+	描述：
+		插件名称：katelog.min.js
+		插件作者：KELEN
+		插件来源: https://github.com/KELEN/katelog
+-->
+
+	
+		<div class="layout-toc">
+			<div id="layout-toc">
+				<div class="k-catelog-list" id="catelog-list" data-title="文章目录"></div>
+			</div>
+		</div>
+
+		
+<script src="/plugin/toc/katelog.min.js"></script>
+
+
+		
+	 
+
+<div class="layout-post">
+	<div id="layout-post">
+		<div class="article-title">
+			
+	<a href="/2023/08/29/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" itemprop="url">
+		Java设计模式-代理模式
+	</a>
+
+		</div>
+
+		<div class="article-meta">
+			<span>
+				<i class="icon-calendar1"></i>
+				
+				
+
+
+
+
+	更新于
+
+	<a href="/2023/08/29/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" itemprop="url">
+		<time datetime="2023-08-29T06:36:36.000Z" itemprop="dateUpdated">
+	  		2023-08-29
+	  </time>
+	</a> 
+
+
+
+			</span>
+			<span>
+				
+	<i class="icon-price-tags"></i>
+	
+		<a href="/tags/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class=" ">
+			代理模式
+		</a>
+	
+		
+			</span>
+			
+			
+
+
+
+		</div>
+
+		<div class="article-content" id="article-content">
+			<p>设计模式(Design Pattern)，其实就是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。使用设计模式是为了可重用代码、让代码更容易被他人理解、提高代码的可靠性。分为三大类型，分别是：创建型模式、结构性模式、行为型模式。7大设计原则：开闭原则、接口隔离原则、合成复用原则、里氏替换原则、最少原则(迪米特法则)、单一职责原则、依赖倒置原则。具体的详细介绍大家自行百度，搜索。</p>
+<p>代理模式的主要角色有三个：<br>抽象主题（Subject）：定义了真实主题和代理主题的公共接口，使得在任何使用真实主题的地方都可以使用代理主题。<br>真实主题（RealSubject）：实现了抽象主题的接口，定义了真实的业务逻辑，是代理主题所代表的真实对象。<br>代理主题（Proxy）：也实现了抽象主题的接口，但是在调用真实主题的方法之前或之后，可以执行一些额外的操作，从而对真实主题进行控制或增强。</p>
+<h1 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h1><h2 id="抽象主题接口"><a href="#抽象主题接口" class="headerlink" title="抽象主题接口"></a>抽象主题接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span>: Subject</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 抽象主题接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: zhangjunfa</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2023/8/29 9:13</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line">​</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 程序猿工作类</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">work</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="真实的主题对象类"><a href="#真实的主题对象类" class="headerlink" title="真实的主题对象类"></a>真实的主题对象类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line">​</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line">​</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span>: UserWork</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 程序猿工作类，也是真实的主题类。实现了 抽象主题接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: zhangjunfa</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2023/8/29 9:21</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserWork</span> <span class="keyword">implements</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 程序猿工作类，这是真实的业务逻辑</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">work</span><span class="params">()</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;我是一只《只会写Bug的程序猿》，我今天需要码字10W,date:&#123;&#125;&quot;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代理主题类"><a href="#代理主题类" class="headerlink" title="代理主题类"></a>代理主题类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line">​</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span>: Proxy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 代理主题类，实现了抽象主题接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: zhangjunfa</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2023/8/29 9:24</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Proxy</span> <span class="keyword">implements</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 真实的主题对象类，程序猿工作</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> UserWork userWork;</span><br><span class="line">​</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构造器</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userWork</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Proxy</span><span class="params">(UserWork userWork)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.userWork = userWork;</span><br><span class="line">    &#125;</span><br><span class="line">​</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 程序猿工作类</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">work</span><span class="params">()</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;在调用真实的主题类之前，把5W的码字工作分给 张三。。。。&#123;&#125;&quot;</span>, <span class="keyword">new</span> <span class="title class_">User</span>(<span class="number">1L</span>, <span class="string">&quot;张三&quot;</span>, <span class="string">&quot;疯狂码字&quot;</span>));</span><br><span class="line">​</span><br><span class="line">        <span class="comment">// &lt;只会写Bug的程序猿&gt; 在努力的工作。。。。。。。。。</span></span><br><span class="line">        <span class="comment">// 这个地方就是 真实的主题类，就是我这只程序猿。我要做的就是真实的业务逻辑。（就是码字10W）</span></span><br><span class="line">        userWork.work();</span><br><span class="line">​</span><br><span class="line">        log.info(<span class="string">&quot;在调用真实的主题类之后，又把5W的码字工作分给 李四。。。。&#123;&#125;&quot;</span>,<span class="keyword">new</span> <span class="title class_">User</span>(<span class="number">4L</span>,<span class="string">&quot;李四&quot;</span>,<span class="string">&quot;疯狂码字&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ApiTest</span> &#123;</span><br><span class="line">​</span><br><span class="line">    <span class="comment">// ApiTest.</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 真实的主题对象</span></span><br><span class="line">        <span class="type">UserWork</span> <span class="variable">userWork</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserWork</span>();</span><br><span class="line">​</span><br><span class="line">        <span class="comment">//  代理对象，并传入真实主题对象</span></span><br><span class="line">        <span class="type">Proxy</span> <span class="variable">proxy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Proxy</span>(userWork);</span><br><span class="line">​</span><br><span class="line">        <span class="comment">// 使用代理对象来调用抽象方法</span></span><br><span class="line">        proxy.work();</span><br><span class="line">    &#125;</span><br><span class="line">​</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    代理对象在调用真实对象的方法之前和之后，都执行了一些额外的操作，</span></span><br><span class="line"><span class="comment">    从而对真实对象进行了增强或控制。</span></span><br><span class="line"><span class="comment">    本例中。我需要码字10W，在调用真实对象前。我把5W的码字工作交给</span></span><br><span class="line"><span class="comment">    了张三。调用之后又把5W的码字工作交给了李四。</span></span><br><span class="line"><span class="comment">    /手动滑稽的笑，我在偷懒。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：<br><img src="/img/20230829/1693274538618.jpg" alt="静态代理测试结果"></p>
+<h1 id="Jdk动态代理"><a href="#Jdk动态代理" class="headerlink" title="Jdk动态代理"></a>Jdk动态代理</h1><h2 id="代理类"><a href="#代理类" class="headerlink" title="代理类"></a>代理类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span>: JdkProxy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>:  代理类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: zhangjunfa</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2023/3/31 9:58</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProxyHandler</span>&lt;T&gt; <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> T target;</span><br><span class="line">​</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ProxyHandler</span><span class="params">(T target)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line">​</span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">​</span><br><span class="line">        log.info(<span class="string">&quot;代理前-----&quot;</span>);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> method.invoke(target, args);</span><br><span class="line">        log.info(<span class="string">&quot;代理后-----代理方法：&#123;&#125;，参数：&#123;&#125;&quot;</span>, method.getName(), args);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代理类工厂类"><a href="#代理类工厂类" class="headerlink" title="代理类工厂类"></a>代理类工厂类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span>: JdkProxy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 代理类工厂类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: zhangjunfa</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2023/3/31 10:06</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProxyFactory</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> T target;</span><br><span class="line">​</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ProxyFactory</span><span class="params">(T target)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line">​</span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">newInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        ProxyHandler&lt;T&gt; jdkProxyHandler = <span class="keyword">new</span> <span class="title class_">ProxyHandler</span>&lt;T&gt;(target);</span><br><span class="line">        <span class="keyword">return</span> (T) Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), jdkProxyHandler);</span><br><span class="line">    &#125;</span><br><span class="line">​</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="用户Service"><a href="#用户Service" class="headerlink" title="用户Service"></a>用户Service</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span>: UserService</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: zhangjunfa</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2023/3/31 9:55</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">addUser</span><span class="params">(String id,String name)</span>;</span><br><span class="line">​</span><br><span class="line">    Object <span class="title function_">getUserById</span><span class="params">(String id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test_Proxy</span><span class="params">()</span> &#123;</span><br><span class="line">    ProxyFactory&lt;UserService&gt; factory = <span class="keyword">new</span> <span class="title class_">ProxyFactory</span>&lt;UserService&gt;(<span class="keyword">new</span> <span class="title class_">UserServiceImpl</span>());</span><br><span class="line">    <span class="type">UserService</span> <span class="variable">userService</span> <span class="operator">=</span> factory.newInstance();</span><br><span class="line">    userService.addUser(<span class="string">&quot;1&quot;</span>,<span class="string">&quot;Rosszhang&quot;</span>);</span><br><span class="line">    <span class="type">Object</span> <span class="variable">username</span> <span class="operator">=</span> userService.getUserById(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">    log.info(<span class="string">&quot;测试结果：&#123;&#125;&quot;</span>, username);</span><br><span class="line">​</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/20230829/1693290384930.jpg" alt="Jdk代理测试结果"></p>
+<h1 id="Cglib动态代理"><a href="#Cglib动态代理" class="headerlink" title="Cglib动态代理"></a>Cglib动态代理</h1><h2 id="引入Cglib类库"><a href="#引入Cglib类库" class="headerlink" title="引入Cglib类库"></a>引入Cglib类库</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;cglib&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;cglib&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;<span class="number">3.2</span><span class="number">.12</span>&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="用户接口和实现类"><a href="#用户接口和实现类" class="headerlink" title="用户接口和实现类"></a>用户接口和实现类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.ross.mode.User;</span><br><span class="line">​</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span>: UserService</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 用户操作接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: zhangjunfa</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2023/8/29 13:20</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">​</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新增用户</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> user</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">addUser</span><span class="params">(User user)</span>;</span><br><span class="line">&#125;</span><br><span class="line">​</span><br><span class="line"><span class="comment">/*********优美且自带华丽的分割线*******************/</span></span><br><span class="line">​</span><br><span class="line"><span class="keyword">import</span> com.ross.mode.User;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line">​</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span>: UserServiceImpl</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 用户操作接口实现类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: zhangjunfa</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2023/8/29 13:28</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新增用户</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> user</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addUser</span><span class="params">(User user)</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;新增了一条用户数据：&#123;&#125;&quot;</span>, user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
+<h2 id="开启事务控制"><a href="#开启事务控制" class="headerlink" title="开启事务控制"></a>开启事务控制</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.MethodProxy;</span><br><span class="line">​</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line">​</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span>: Mapper</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 开启事务控制，个人理解：相当于需要代理的操作。。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: zhangjunfa</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2023/8/29 13:36</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MapperTransactional</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">before</span><span class="params">(Object o, Method method, Object[] args, MethodProxy methodProxy)</span> &#123;</span><br><span class="line">        <span class="comment">// 如果输出 o ，会卡</span></span><br><span class="line">        log.info(<span class="string">&quot;开启事务操作。。。。。。方法：&#123;&#125;,参数：&#123;&#125;&quot;</span>, method.getName(), args);</span><br><span class="line">    &#125;</span><br><span class="line">​</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">after</span><span class="params">(Object o, Method method, Object[] args, MethodProxy methodProxy)</span> &#123;</span><br><span class="line">        <span class="comment">// 如果输出 o ，会卡</span></span><br><span class="line">        log.info(<span class="string">&quot;关闭事务操作.......方法：&#123;&#125;,参数：&#123;&#125;&quot;</span>, method.getName(), args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代理类-1"><a href="#代理类-1" class="headerlink" title="代理类"></a>代理类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.Enhancer;</span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.MethodInterceptor;</span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.MethodProxy;</span><br><span class="line">​</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line">​</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span>: Proxy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 代理类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: zhangjunfa</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2023/8/29 13:22</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProxyInterceptor</span> <span class="keyword">implements</span> <span class="title class_">MethodInterceptor</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 目标对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> UserService target;</span><br><span class="line">​</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 事务控制</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> MapperTransactional transactional;</span><br><span class="line">​</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构造器</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ProxyInterceptor</span><span class="params">(UserService target, MapperTransactional transactional)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">        <span class="built_in">this</span>.transactional = transactional;</span><br><span class="line">    &#125;</span><br><span class="line">​</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">intercept</span><span class="params">(Object o, Method method, Object[] args, MethodProxy methodProxy)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        transactional.before(o, method, args, methodProxy);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> method.invoke(target, args);</span><br><span class="line">        transactional.after(o, method, args, methodProxy);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">​</span><br><span class="line">    <span class="comment">//返回一个代理对象:  是 target 对象的代理对象</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">getProxyInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//1. 创建一个工具类</span></span><br><span class="line">        <span class="type">Enhancer</span> <span class="variable">enhancer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Enhancer</span>();</span><br><span class="line">        <span class="comment">//2. 设置父类</span></span><br><span class="line">        enhancer.setSuperclass(target.getClass());</span><br><span class="line">        <span class="comment">//3. 设置回调函数</span></span><br><span class="line">        enhancer.setCallback(<span class="built_in">this</span>);</span><br><span class="line">        <span class="comment">//4. 创建子类对象，即代理对象</span></span><br><span class="line">        <span class="keyword">return</span> enhancer.create();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
+<h2 id="测试-2"><a href="#测试-2" class="headerlink" title="测试"></a>测试</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ApiTest.</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test_CGLIB</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//创建目标对象</span></span><br><span class="line">        <span class="type">MapperTransactional</span> <span class="variable">trascation</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MapperTransactional</span>();</span><br><span class="line">        <span class="type">UserService</span> <span class="variable">target</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserServiceImpl</span>();</span><br><span class="line">​</span><br><span class="line">        <span class="comment">//获取到代理对象，并且将目标对象传递给代理对象</span></span><br><span class="line">        <span class="type">UserService</span> <span class="variable">userService</span> <span class="operator">=</span> (UserService) <span class="keyword">new</span> <span class="title class_">ProxyInterceptor</span>(target, trascation).getProxyInstance();</span><br><span class="line">​</span><br><span class="line">        <span class="comment">//执行代理对象的方法，触发 intecept 方法，从而实现 对目标对象的调用</span></span><br><span class="line">        userService.addUser(<span class="keyword">new</span> <span class="title class_">User</span>(<span class="number">4L</span>,<span class="string">&quot;张三&quot;</span>,<span class="string">&quot;疯狂的写BUG&quot;</span>));</span><br><span class="line">​</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果<br><img src="/img/20230829/1693288889452.jpg" alt="Cglib代理测试结果"><br>以上测试案例的代码集合：源码地址：项目名称：ross-proxy-03<br><a target="_blank" rel="noopener" href="https://gitee.com/zhang_jun_fa/ross-design">测试案例源码地址</a></p>
+<p>注意：以上代码都是个人的理解，如有不当之处，还望指正，共同进步。同时也希望大家能给我更通俗易懂的案例。来加深理解。&#x2F;360度鞠躬致谢。</p>
+<p>下面这个是我的个人公共号 <strong>只会写Bug的程序猿</strong>，大家可以关注一下。相互交流学习。有什么不太懂的也可以互相交流。<br><img src="/img/ross/ross1.jpg" alt="只会写Bug的程序猿的公众号"><br><a target="_blank" rel="noopener" href="https://rosszhangjf.github.io/">Ross zhang的博客</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013432938?type=blog">RossZhang的CSDN地址</a></p>
+	
+		</div>
+		
+		<div id="current-post-cover" data-scr="/img/ross/1693291169892.jpg"></div>
+
+		<!-- relate post, comment...-->
+		<div class="investment-container">
+			<div class="investment-header">
+				<div class="investment-title-1">
+					<div class="on">相关文章</div>
+					<div>评论</div>
+					<div>分享</div>
+				</div>
+				<div class="investment-title-2">	            
+					
+	<span>
+		<a id="totop-post-page">返回顶部</a>
+		
+		
+			<a href="/2023/08/25/Springboot%E6%95%B4%E5%90%88%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81%E6%9C%8D%E5%8A%A1/" title="Springboot整合阿里云短信验证码服务" rel="next">
+				下一篇&raquo;
+			</a>
+			
+	</span>
+
+
+      		
+				</div>	
+			</div>
+			
+			<div class="investment-content">
+				<div class="investment-content-list">
+					
+
+<div class="relate-post">
+	
+		<ul>
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/25/Springboot%E6%95%B4%E5%90%88%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81%E6%9C%8D%E5%8A%A1/" title="Springboot整合阿里云短信验证码服务">
+								Springboot整合阿里云短信验证码服务			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 25日, 2023				
+							</p>
+							<p class="relate-post-content">
+								申请阿里云短信验证码服务由于我们只是做开发测试使用，就不用申请正式的签名和模板了。只需要这个测试签名和模板就可以了。以上两步做完。就可以喝茶等一会了。审核时间大概是一个小时左右。注意：1、此处如果签名是测试，但是模板不是测试模板。就会...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/25/Springboot%E6%95%B4%E5%90%88%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81%E6%9C%8D%E5%8A%A1/" title="Springboot整合阿里云短信验证码服务">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/ross/1692947991747.png" alt="Springboot整合阿里云短信验证码服务"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/24/%E4%BD%BF%E7%94%A8GitHub-hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/" title="使用GitHub+hexo搭建自己的博客">
+								使用GitHub+hexo搭建自己的博客			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 24日, 2023				
+							</p>
+							<p class="relate-post-content">
+								此处默认您已经对GitHub，Node，Git有一定的基础。
+先在GitHub上建立一个RossZhangJF.github.io的仓库注意：此处的RossZhangJF.github.io名字要和GitHub的用户名一模一样不然，会...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/24/%E4%BD%BF%E7%94%A8GitHub-hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/" title="使用GitHub+hexo搭建自己的博客">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/ross/1692844799104.jpg" alt="使用GitHub+hexo搭建自己的博客"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/23/Springboot%E9%9B%86%E6%88%90Minio%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="Springboot集成Minio实现文件管理">
+								Springboot集成Minio实现文件管理			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 23日, 2023				
+							</p>
+							<p class="relate-post-content">
+								这里我默认已经有服务器，并且安装了Minio的文件服务器。后续我在写一个安装Minio的文章。这里我用的是Ruoyi的前后端Vue项目，有些方法不在的可以在Ruoyi的项目中找。Ruoyi
+先引入Minio的Pom路径12345678...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/23/Springboot%E9%9B%86%E6%88%90Minio%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="Springboot集成Minio实现文件管理">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/20230823/1692773834970.jpg" alt="Springboot集成Minio实现文件管理"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/22/Springboot%E9%9B%86%E6%88%90WebSocket%E5%AE%9E%E7%8E%B0%E9%80%9A%E7%9F%A5%E5%8F%91%E9%80%81/" title="Springboot集成WebSocket实现通知发送">
+								Springboot集成WebSocket实现通知发送			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 22日, 2023				
+							</p>
+							<p class="relate-post-content">
+								结合RuoYi前后端，实现WebSocket发送系统通知功能。
+java部分代码1、引入websocket的pom地址12345&lt;!--websocket --&gt;&lt;dependency&gt;    &lt;grou...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/22/Springboot%E9%9B%86%E6%88%90WebSocket%E5%AE%9E%E7%8E%B0%E9%80%9A%E7%9F%A5%E5%8F%91%E9%80%81/" title="Springboot集成WebSocket实现通知发送">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/ross/666661.jpg" alt="Springboot集成WebSocket实现通知发送"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/21/Test-Annie/" title="Test Annie">
+								Test Annie			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 21日, 2023				
+							</p>
+							<p class="relate-post-content">
+								Annie主题使用说明官方文档
+
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/21/Test-Annie/" title="Test Annie">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/cart_cover.jpg" alt="Test Annie"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/21/Ross%20Zhang%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" title="Ross Zhang自我介绍">
+								Ross Zhang自我介绍			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 21日, 2023				
+							</p>
+							<p class="relate-post-content">
+								自我介绍 热烈欢迎大家关注我的博客。在此深深感谢。 本人是一个软件开发工作者。从事后端java开发，和部分前端开发。目前掌握的技术有Java、Springboot等后端开发技术。vue、HTML、css、js等前端技术。 目前已经从事...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/21/Ross%20Zhang%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" title="Ross Zhang自我介绍">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/ross/ross1.jpg" alt="Ross Zhang自我介绍"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2023/08/20/Hexo%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/" title="Hexo建立博客项目的基本步骤">
+								Hexo建立博客项目的基本步骤			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								八月 20日, 2023				
+							</p>
+							<p class="relate-post-content">
+								快速入门创建一个新的帖子1$ hexo new &quot;我的文章&quot;
+
+更多信息: Writing
+运行服务1$ hexo server
+
+更多信息: Server
+生成静态文件1$ hexo generate
+
+更多信息...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2023/08/20/Hexo%E5%BB%BA%E7%AB%8B%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/" title="Hexo建立博客项目的基本步骤">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/cart_cover.jpg" alt="Hexo建立博客项目的基本步骤"/>
+							</a>
+						</div>
+					</li>												
+			
+		</ul>
+	
+</div>	
+				</div>
+				<div class="investment-content-list">
+					<div class="layout-comment">
+
+	
+		<div class="config-info">
+			Please check the parameter of <b>comment</b> in config.yml of hexo-theme-Annie!
+		</div>	
+	
+
+</div>
+				</div>
+				<div class="investment-content-list">
+					<div class="layout-share">
+	
+	
+
+		
+			
+			<!-- socialShare share -->
+			<div class="social-share"></div>
+
+<!--  css & js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+			
+		
+		
+	
+</div>
+
+
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+
+<!-- show math formula -->
+
+
+
+	 
+	
+<script src="/plugin/clipboard/clipboard.js"></script>
+
+	<script>
+		// Copy code !
+	    function preprocessing() {
+	        $("#article-content .highlight").each(function() {
+	            $(this).wrap('<div id="post-code"></div>');
+	        })
+
+	        $("#article-content #post-code").each(function() {
+	            $(this).prepend('<nav class="copy-nav"><span><i class="code-language"></i></span></nav>');
+	        })
+
+	        $("#article-content .copy-nav").each(function() {
+	            let languageClass = $(this).next().attr('class'),
+	                language = ((languageClass.length > 9) && (languageClass != null)) ? languageClass.substr(10) : "none"; //why 9? Need to check language?
+
+	            $(this).find('.code-language').text(language);
+	            $(this).append('<span class="copy-btn icon-paste"></span>');
+	        });
+	    }
+
+		function copy() {
+		    $('#article-content #post-code').each(function(i) {
+		        let codeCopyId = 'codeCopy-' + i;
+
+		        let codeNode = $(this).find('.code'),
+		            copyButton = $(this).find('.copy-btn');
+
+		        codeNode.attr('id', codeCopyId);
+		        copyButton.attr('data-clipboard-target-id', codeCopyId);
+		    })
+   
+			let clipboard = new ClipboardJS('.copy-btn', {
+					target: function(trigger) {
+						return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+					}
+		      	});
+
+			//pure js
+			function showTooltip(elem, msg) {		   
+				elem.setAttribute('aria-label', msg);
+				elem.setAttribute('class', 'copy-btn icon-clipboard1');
+				setTimeout(function() {
+					elem.setAttribute('class', 'copy-btn icon-paste');
+				}, 2000);
+			}
+
+			clipboard.on('success', function(e) {
+			    e.clearSelection();
+			    console.info('Action:', e.action);		   
+			    console.info('Trigger:', e.trigger);
+			    showTooltip(e.trigger, 'Copied!');   
+			});
+			
+			clipboard.on('error', function(e) {
+			    console.error('Action:', e.action);
+			    console.error('Trigger:', e.trigger);
+			});
+		}
+		
+		(function copyCode(){
+			if ($('.layout-post').length) {
+			    preprocessing();
+			    copy();
+			} 
+		})();
+	</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+
+
+<script src="/plugin/fancybox/jquery.fancybox.js"></script>
+
+
+<script type="text/javascript">
+	(function gallerySet(){
+		let titleID = $('.article-title a'),
+			imageID = $('.article-content img'),
+			videoID = $('.article-content video');
+		
+		let postTitle = titleID.text() ? titleID.text() : "No post title!";
+		
+		imageID.each(function() {
+			let imgPath = $(this).attr('src'),
+				imgTitle = $(this).attr('alt') ? $(this).attr('alt') : "No image description!";
+		
+			//给每个匹配的<img>元素打包, 即添加父元素<a>
+			$(this).wrap('<a data-fancybox="gallery" data-caption="《 ' + postTitle + ' 》' + imgTitle + '"href="' + imgPath + '"> </a>');
+		});
+		
+		videoID.each(function() {
+			let videoPath = $(this).attr('src');
+		
+			//给每个匹配的<img>元素打包, 即添加父元素<a>
+			$(this).wrap('<a data-fancybox href=" ' + videoPath + ' "> </a>');
+		});
+		
+		//TODO：支持html5 video
+
+		if($('#layout-post').length) {
+			$('[data-fancybox="gallery"]').fancybox({
+				loop: true,
+				buttons: [
+					"zoom",
+					"share",
+					"slideShow",
+					"fullScreen",
+					//"download",
+					"thumbs",
+					"close"
+				],
+				protect: true
+			});
+		}
+	})();
+</script>
+		</main>
+
+		<!--footer-->
+		<footer>
+	<div id="navigation-show">
+		<ul id="global-nav">
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home" target="_blank">主页</a>
+		</li>
+		
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive" target="_blank">归档</a>
+		</li>
+		
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories" target="_blank">分类</a>
+		</li>
+		
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags" target="_blank">标签</a>
+		</li>
+		
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about" target="_blank">关于</a>
+		</li>
+		
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery" target="_blank">相册</a>
+		</li>
+		
+	
+
+	
+		<li class="menu-search">
+			<a href="javascript:;" class="popup-trigger">搜索</a>
+		</li>
+	
+</ul>
+	</div>
+
+	<div class="copyright">
+		<p>
+			 
+				&copy;2023, content by Ross Zhang. All Rights Reserved.
+			
+			
+				<a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> Theme <a href="https://github.com/Sariay/hexo-theme-Annie" title="Annie" target="_blank" rel="noopener">Annie</a> by Sariay.
+			
+		</p>
+		<p>
+			
+
+	<!-- busuanzi -->
+	<!-- busuanzi -->
+
+
+
+			<a href="javascript:zh_tran('s');" class="zh_click" id="zh_click_s">简体</a> 
+			<a href="javascript:zh_tran('t');" class="zh_click" id="zh_click_t">繁體</a>				
+		</p>
+	</div>		
+</footer>
+		
+	<!-- Local or hitokoto! -->
+
+	
+<script src="/plugin/motto/motto.js"></script>
+
+	
+	<script type="text/javascript">
+		(function motto(){
+			let mottoText = getMingYanContent().split('</br> - </br>'),
+			
+			mottoTextContent = mottoText[0]?mottoText[0]:'请刷新...',
+			
+			mottoTextFrom = mottoText[1]?mottoText[1]:'one/一个';
+			
+			mottoTextContent = mottoTextContent.trim().substring(0, 100);
+		
+			$("#motto-content").html( mottoTextContent);
+			$("#motto-author").html( mottoTextFrom  );
+		})();	
+	</script>	
+
+
+
+<!-- love effect -->
+
+	
+<script src="/plugin/love/love.js"></script>
+
+
+
+<!-- back to top -->
+
+	<div id="totop">
+	<span class="icon-circle-up"></span>
+</div>
+
+
+
+<!-- site analysis -->
+
+
+	<!-- site-analysis -->
+	
+	
+	
+	
+	
+ 
+
+<!-- leancloud -->
+
+
+	<!-- leancloud -->
+	<!--
+	时间：2018-11-27
+	描述：
+		文章访问量：visitors
+		文章喜欢量：likes	
+		文章排行榜：topNPost
+		其他得说明：
+			01-Cookie相关的函数 
+				https://blog.csdn.net/somehow1002/article/details/78511541（Author：somehow1002）
+			02-visitors相关的函数 
+				https://blog.csdn.net/u013553529/article/details/63357382（Author：爱博客大伯）
+				https://notes.doublemine.me/2015-10-21-为NexT主题添加文章阅读量统计功能.html（Author：夏末）
+			03-topNPost相关的函数
+				https://hoxis.github.io/hexo-next-read-rank.html（Author：hoxis）
+			04-likes相关的函数，
+				参考了01 & 02进行简单的设计与实现
+-->
+
+
+	
+
+  
+
+	<!--
+	时间：2018-10-3
+	描述：
+		插件名称：hexo-generator-search-zip
+		插件来源: https://github.com/SuperKieran/hexo-generator-search-zip
+		代码参考：https://github.com/SuperKieran/TKL/blob/master/layout/_partial/search.ejs(Include: js & css)	
+-->
+<div class="popup search-popup local-search-popup scrollbar" >
+	<div class="local-search-container">
+		<span class="popup-btn-close">
+      		ESC
+   		</span>
+		<div class="local-search-header">
+			<div class="input-prompt">				
+			</div>
+			<input autocomplete="off" placeholder="Search..." type="text" id="local-search-input">
+		</div>
+		<div class="local-search-body">
+			<div id="local-search-output"></div>
+		</div>
+		<div class="local-search-footer">
+			<div class="topN-post">				
+				
+								
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="/plugin/search/ziploader.js"></script>
+<script src="/js/search.js"></script>
+
+
+<script type="text/javascript">
+	var search_path = 'search.json',
+		zip_Path = '/search.zip',
+		version_Path = '/searchVersion.txt',
+		input_Trigger = 'auto',
+		top_N = '2';
+
+	themeLocalSearch({
+		search_path, 
+		zip_Path, 
+		version_Path, 
+		input_Trigger, 
+		top_N
+	});
+</script>
+
+
+
+<script src="/plugin/chinese/chinese.js"></script>
+<script src="/plugin/imagelazyloader/yall.min.js"></script>
+<script src="/plugin/imageloaded/imagesloaded.pkgd.min.js"></script>
+<script src="/plugin/nicescroll/jquery.nicescroll.js"></script>
+<script src="/plugin/resizediv/resizediv.js"></script>
+<script src="/js/main.js"></script>
+
+	</body>	
+</html>
